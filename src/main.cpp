@@ -8,14 +8,11 @@
 #include <algorithm>
 #include <time.h>
 #include <float.h>
-#define N_CIDADES 280
 
 using namespace std;
 
 double ** distancia; // matriz de adjacencia
-int dimension = N_CIDADES; // quantidade total de vertices
-
-void printData();
+int dimension;
 
 typedef struct {
 	double custo;
@@ -209,8 +206,7 @@ bool comparar(tInsercao a, tInsercao b) {
 }
 
 int main(int argc, char** argv) {
-  readData(argc, argv, &dimension, &distancia);
-  //printData();
+	readData(argc, argv, &dimension, &distancia);
 
 	srand(time(NULL));
 	vector<int> s, melhorS;
@@ -218,12 +214,12 @@ int main(int argc, char** argv) {
 	FILE *fp;
 	int Iils;
 
-	if (N_CIDADES >= 150) Iils = N_CIDADES / 2;
-	else Iils = N_CIDADES;
+	if (dimension >= 150) Iils = dimension / 2;
+	else Iils = dimension;
 
 	for (int cont = 0; cont < 50; cont++) {
 		vector<int> listaDeCandidatos;
-		for (int i = 0; i < N_CIDADES; i++) {
+		for (int i = 0; i < dimension; i++) {
 			listaDeCandidatos.push_back(i);
 		}
 
@@ -245,7 +241,7 @@ int main(int argc, char** argv) {
 		vector<tInsercao> insercao;
 		tInsercao aux;
 
-		for (; tamanhoSubtour < N_CIDADES; tamanhoSubtour++) {
+		for (; tamanhoSubtour < dimension; tamanhoSubtour++) {
 			insercao.clear();
 
 			for (int i = 1; i < tamanhoSubtour; i++) {
@@ -409,23 +405,36 @@ int main(int argc, char** argv) {
 			}
 		
 			//perturbacao
-			int ar[4] = { rand() % (s.size() - 3) + 1, rand() % (s.size() - 3) + 1, rand() % (s.size() - 3) + 1,
-			rand() % (s.size() - 3) + 1 };
+			int ar[4];
 
+			for (int i = 0; i < 4; i++){
+				ar[i] = rand() % (s.size() - 5) + 1;
+			}
 			sort(ar, ar + 4);
 
-			if (ar[1] - ar[0] > N_CIDADES / 10 - 1)
-				ar[1] = ar[0] + N_CIDADES / 10 - 1;
-			else if (ar[1] - ar[0] < 1)
-				ar[1] = ar[0] + 1;
-
-			if (ar[3] - ar[2] > N_CIDADES / 10 - 1)
-				ar[3] = ar[2] + N_CIDADES / 10 - 1;
-			else if (ar[3] - ar[2] < 1)
-				ar[3] = ar[2] + 1;
-
-			int tamanho1 = ar[1] - ar[0] + 1, tamanho2 = ar[3] - ar[2] + 1;
+			for (int i = 0; i < 4; i++){
+				if (ar[i + 1] <= ar[i])
+					ar[i + 1] = ar[i] + 1;
+			}
 			
+			if (ar[1] - ar[0] > dimension / 10 - 1)
+				ar[1] = ar[0] + dimension / 10 - 1;
+		
+			if (ar[3] - ar[2] > dimension / 10 - 1)
+				ar[3] = ar[2] + dimension / 10 - 1;
+			
+			int tamanho1 = ar[1] - ar[0] + 1, tamanho2 = ar[3] - ar[2] + 1;
+
+			if (ar[2] - ar[1] > 1)
+				custo += distancia[s[ar[2]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[1] + 1]] +
+						 distancia[s[ar[0]]][s[ar[2] - 1]] + distancia[s[ar[1]]][s[ar[3] + 1]] -
+						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[1]]][s[ar[1] + 1]] +
+						 distancia[s[ar[2]]][s[ar[2] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
+			else
+				custo += distancia[s[ar[1]]][s[ar[3] + 1]] + distancia[s[ar[0]]][s[ar[3]]] +
+						 distancia[s[ar[0] - 1]][s[ar[2]]] - (distancia[s[ar[0]]][s[ar[0] - 1]] +
+						 distancia[s[ar[1]]][s[ar[2]]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
+
 			for (int i = 0; i < tamanho1; i++) {
 				s.insert(s.begin() + ar[2], s[ar[0]]);
 				s.erase(s.begin() + ar[0]);
@@ -435,10 +444,6 @@ int main(int argc, char** argv) {
 				s.insert(s.begin() + ar[0], s[ar[3]]);
 				s.erase(s.begin() + ar[3] + 1);
 			}
-
-			custo += distancia[s[ar[2]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[1] + 1]] + distancia[s[ar[0]]][s[ar[2] - 1]]
-			+ distancia[s[ar[1]]][s[ar[3] + 1]] - (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[1]]][s[ar[1] + 1]] +
-			distancia[s[ar[2]]][s[ar[2] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
 		}
 	}
 	for (int i = 0; i < melhorS.size(); i++) {
@@ -447,14 +452,4 @@ int main(int argc, char** argv) {
 	printf("\nCusto: %lf\n", melhorCusto);
 
   return 0;
-}
-
-void printData() {
-  cout << "dimension: " << dimension << endl;
-  for (size_t i = 1; i <= dimension; i++) {
-    for (size_t j = 1; j <= dimension; j++) {
-      cout << distancia[i][j] << " ";
-    }
-    cout << endl;
-  }
 }
