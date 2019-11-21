@@ -410,7 +410,7 @@ int main(int argc, char** argv) {
 			}
 			sort(ar, ar + 4);
 
-			for (int i = 0; i < 4; i++){
+			for (int i = 0; i < 3; i++){
 				if (ar[i + 1] <= ar[i])
 					ar[i + 1] = ar[i] + 1;
 			}
