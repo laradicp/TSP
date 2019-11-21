@@ -211,7 +211,6 @@ int main(int argc, char** argv) {
 	srand(time(NULL));
 	vector<int> s, melhorS;
 	double melhorCusto = DBL_MAX;
-	FILE *fp;
 	int Iils;
 
 	if (dimension >= 150) Iils = dimension / 2;
