@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
 
 	for (int cont = 0; cont < 50; cont++) {
 		vector<int> listaDeCandidatos;
-		for (int i = 0; i < dimension; i++) {
+		for (int i = 1; i < dimension; i++) {
 			listaDeCandidatos.push_back(i);
 		}
 
@@ -227,8 +227,7 @@ int main(int argc, char** argv) {
 		int tamanhoSubtour = 3;
 
 		s.push_back(0);
-		listaDeCandidatos.erase(listaDeCandidatos.begin());
-
+		
 		for (int i = 1; i < tamanhoSubtour; i++) {
 			int j = rand() % listaDeCandidatos.size();
 
@@ -426,23 +425,22 @@ int main(int argc, char** argv) {
 			int tamanho1 = ar[1] - ar[0] + 1, tamanho2 = ar[3] - ar[2] + 1;
 
 			if (ar[2] - ar[1] > 1)
-				custo += distancia[s[ar[2]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[1] + 1]] +
-						 distancia[s[ar[0]]][s[ar[2] - 1]] + distancia[s[ar[1]]][s[ar[3] + 1]] -
+				custo += distancia[s[ar[3]]][s[ar[0] - 1]] + distancia[s[ar[2]]][s[ar[1] + 1]] +
+						 distancia[s[ar[1]]][s[ar[2] - 1]] + distancia[s[ar[0]]][s[ar[3] + 1]] -
 						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[1]]][s[ar[1] + 1]] +
 						 distancia[s[ar[2]]][s[ar[2] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
 			else
-				custo += distancia[s[ar[1]]][s[ar[3] + 1]] + distancia[s[ar[0]]][s[ar[3]]] +
-						 distancia[s[ar[0] - 1]][s[ar[2]]] - (distancia[s[ar[0]]][s[ar[0] - 1]] +
-						 distancia[s[ar[1]]][s[ar[2]]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
+				custo += distancia[s[ar[0]]][s[ar[3] + 1]] + distancia[s[ar[0] - 1]][s[ar[3]]] - 
+						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
 
-			for (int i = 0; i < tamanho1; i++) {
-				s.insert(s.begin() + ar[2], s[ar[0]]);
-				s.erase(s.begin() + ar[0]);
+			for (int i = tamanho1 - 1; i >= 0; i--) {
+				s.insert(s.begin() + ar[2], s[ar[0] + i]);
+				s.erase(s.begin() + ar[0] + i);
 			}
 
 			for (int i = 0; i < tamanho2; i++) {
-				s.insert(s.begin() + ar[0], s[ar[3]]);
-				s.erase(s.begin() + ar[3] + 1);
+				s.insert(s.begin() + ar[0], s[ar[2] + i]);
+				s.erase(s.begin() + ar[2] + i + 1);
 			}
 		}
 	}
