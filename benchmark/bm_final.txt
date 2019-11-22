@@ -266,7 +266,3 @@ instances/ulysses22.tsp
 Custo: 7013.000000
 Tempo: 0.014821
 
--
-Custo: 7013.000000
-Tempo: 0.014314
-
