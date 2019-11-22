@@ -1,0 +1,38 @@
+instances/a280.tsp
+Custo: 2579.000000
+Tempo: 33.507529
+instances/ali535.tsp
+Custo: 204189.000000
+Tempo: 347.902164
+instances/att48.tsp
+Custo: 10628.000000
+Tempo: 0.191711
+instances/att532.tsp
+Custo: 27732.000000
+Tempo: 353.322016
+instances/bayg29.tsp
+Custo: 1610.000000
+Tempo: 0.033347
+instances/bays29.tsp
+Custo: 2020.000000
+Tempo: 0.038930
+instances/berlin52.tsp
+Custo: 7542.000000
+Tempo: 0.244380
+instances/bier127.tsp
+Custo: 118282.000000
+Tempo: 4.342049
+instances/brazil58.tsp
+Custo: 25395.000000
+Tempo: 0.352087
+instances/brd14051.tsp
+instances/a280.tsp
+Custo: 2579.000000
+Tempo: 33.585861
+instances/ali535.tsp
+Custo: 202447.000000
+Tempo: 366.560727
+instances/att48.tsp
+Custo: 10628.000000
+Tempo: 0.184988
+instances/att532.tsp
