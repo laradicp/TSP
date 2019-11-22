@@ -6,7 +6,8 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
-#include <time.h>
+#include <ctime>
+#include <chrono>
 #include <float.h>
 
 using namespace std;
@@ -209,6 +210,9 @@ int main(int argc, char** argv) {
 	readData(argc, argv, &dimension, &distancia);
 
 	srand(time(NULL));
+
+	auto inicio = chrono::system_clock::now();
+
 	vector<int> s, melhorS;
 	double melhorCusto = DBL_MAX;
 	int Iils;
@@ -391,8 +395,6 @@ int main(int argc, char** argv) {
 						PreencheMovimentos(movimentosDeVizinhanca);
 					}
 					else movimentosDeVizinhanca.erase(movimentosDeVizinhanca.begin() + vizinho);
-
-					break;
 				}
 			}
 
@@ -400,6 +402,9 @@ int main(int argc, char** argv) {
 				melhorS = s;
 				melhorCusto = custo;
 				iterILS = -1;
+			} else {
+				s = melhorS; 
+				custo = melhorCusto;
 			}
 		
 			//perturbacao
@@ -443,10 +448,15 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+
+	auto fim = chrono::system_clock::now();
+    chrono::duration<double> tempo = fim - inicio;
+
 	for (int i = 0; i < melhorS.size(); i++) {
 		printf("%d  ", melhorS[i] + 1);
 	}
 	printf("\nCusto: %lf\n", melhorCusto);
+	printf("Tempo: %lf\n", tempo);
 
-  return 0;
+	return 0;
 }
