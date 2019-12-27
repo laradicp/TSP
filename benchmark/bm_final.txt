@@ -264,9 +264,13 @@ Tempo: 0.004728
 
 instances/ulysses22.tsp
 Custo: 7013.000000
+<<<<<<< HEAD
 Tempo: 0.012116
 
 -
 Custo: 7013.000000
 Tempo: 0.011624
 
+=======
+Tempo: 0.014821
+>>>>>>> 8094879709c1e1e6b5cd80b2556bb9df88fdd5a6
