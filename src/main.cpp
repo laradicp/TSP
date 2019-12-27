@@ -37,21 +37,22 @@ void PreencheMovimentos(vector<int> &movimentosDeVizinhanca) {
 }
 
 void Swap(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
-	int melhorI = 0, melhorJ = 0;
-	double delta, melhorDelta = 0;
+	int melhorI = 0, melhorJ = 0, tamanho = s.size();
+	double deltaParcial, delta, melhorDelta = 0;
 	tVizinhanca *p;
 	p = vizinhanca;
 
-	for (int i = 1; i < s.size() - 1; i++) {
-		for (int j = i + 1; j < s.size() - 1; j++) {
+	for (int i = 1; i < tamanho - 1; i++) {
+		deltaParcial = -(distancia[s[i]][s[i + 1]] + distancia[s[i]][s[i - 1]]);
+		for (int j = i + 1; j < tamanho - 1; j++) {
+			delta = deltaParcial;
 			if (j - i > 1) {
-				delta = distancia[s[j]][s[i + 1]] + distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] +
-					distancia[s[i]][s[j - 1]] - (distancia[s[i]][s[i + 1]] + distancia[s[i]][s[i - 1]] +
-						distancia[s[j]][s[j + 1]] + distancia[s[j]][s[j - 1]]);
+				delta += distancia[s[j]][s[i + 1]] + distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] +
+					distancia[s[i]][s[j - 1]] - (distancia[s[j]][s[j + 1]] + distancia[s[j]][s[j - 1]]);
 			}
 			else {
-				delta = distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] - (distancia[s[i]][s[i - 1]] +
-					distancia[s[j]][s[j + 1]]);
+				delta += distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] + distancia[s[i]][s[i + 1]] -
+					distancia[s[j]][s[j + 1]];
 			}
 
 			if (delta < melhorDelta) {
@@ -67,108 +68,67 @@ void Swap(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
 	p->melhorDelta = melhorDelta;
 }
 
-void Re_insertion(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
-	int melhorI = 0, melhorJ = 0;
-	double delta, melhorDelta = 0;
+void N_Re_insertion (tVizinhanca *vizinhanca, double **distancia, vector<int> &s, int n) {
+	int melhorI = 0, melhorJ = 0, tamanho = s.size();
+	double deltaParcial, delta, melhorDelta = 0;
 	tVizinhanca *p;
 	p = vizinhanca;
+	
+	if (n == 1) {
+		for (int i = 1; i < tamanho - 3; i++) {
+			deltaParcial = distancia[s[i - 1]][s[i + 1]] - (distancia[s[i]][s[i - 1]] + distancia[s[i]][s[i + 1]]);
+			for (int j = i + 2; j < tamanho - 1; j++) {
+				delta = deltaParcial;
+				delta += distancia[s[i]][s[j]] + distancia[s[i]][s[j + 1]] - distancia[s[j]][s[j + 1]];
 
-	for (int i = 1; i < s.size() - 3; i++) {
-		for (int j = i + 2; j < s.size() - 1; j++) {
-			delta = distancia[s[i]][s[j]] + distancia[s[i]][s[j + 1]] + distancia[s[i - 1]][s[i + 1]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i]][s[i + 1]] + distancia[s[j]][s[j + 1]]);
+				if (delta < melhorDelta) {
+					melhorDelta = delta;
+					melhorI = i;
+					melhorJ = j;
+				}
+			}
+		}
 
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
+		for (int i = 3; i < tamanho - 1; i++) {
+			deltaParcial = distancia[s[i - 1]][s[i + 1]] - (distancia[s[i]][s[i - 1]] + distancia[s[i]][s[i + 1]]);
+			for (int j = i - 2; j > 0; j--) {
+				delta = deltaParcial;
+				delta += distancia[s[i]][s[j - 1]] + distancia[s[i]][s[j]] - distancia[s[j - 1]][s[j]];
+
+				if (delta < melhorDelta) {
+					melhorDelta = delta;
+					melhorI = i;
+					melhorJ = j;
+				}
 			}
 		}
 	}
+	else {
+		for (int i = 1; i < tamanho - n - 1; i++) {
+			deltaParcial = distancia[s[i - 1]][s[i + n]] - (distancia[s[i]][s[i - 1]] + distancia[s[i + n - 1]][s[i + n]]);
+			for (int j = i + 1; j < tamanho - n; j++) {
+				delta = deltaParcial;
+				delta += distancia[s[i]][s[j + n - 1]] + distancia[s[i + n - 1]][s[j + n]] - distancia[s[j + n - 1]][s[j + n]];
 
-	for (int i = 3; i < s.size() - 1; i++) {
-		for (int j = i - 2; j > 0; j--) {
-			delta = distancia[s[i]][s[j - 1]] + distancia[s[i]][s[j]] + distancia[s[i - 1]][s[i + 1]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i]][s[i + 1]] + distancia[s[j - 1]][s[j]]);
-
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
+				if (delta < melhorDelta) {
+					melhorDelta = delta;
+					melhorI = i;
+					melhorJ = j;
+				}
 			}
 		}
-	}
 
-	p->I = melhorI;
-	p->J = melhorJ;
-	p->melhorDelta = melhorDelta;
-}
+		for (int i = n; i < tamanho - n; i++) {
+			deltaParcial = distancia[s[i - 1]][s[i + n]] - (distancia[s[i]][s[i - 1]] + distancia[s[i + n - 1]][s[i + n]]);
+			for (int j = i - 1; j > 0; j--) {
+				delta = deltaParcial;
+				delta += distancia[s[i]][s[j - 1]] + distancia[s[i + n - 1]][s[j]] - distancia[s[j - 1]][s[j]];
 
-void Or_opt_2(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
-	int melhorI = 0, melhorJ = 0;
-	double delta, melhorDelta = 0;
-	tVizinhanca *p;
-	p = vizinhanca;
-
-	for (int i = 1; i < s.size() - 3; i++) {
-		for (int j = i + 1; j < s.size() - 2; j++) {
-			delta = distancia[s[i]][s[j + 1]] + distancia[s[i + 1]][s[j + 2]] + distancia[s[i - 1]][s[i + 2]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i + 1]][s[i + 2]] + distancia[s[j + 1]][s[j + 2]]);
-
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
-			}
-		}
-	}
-
-	for (int i = 2; i < s.size() - 2; i++) {
-		for (int j = i - 1; j > 0; j--) {
-			delta = distancia[s[i]][s[j - 1]] + distancia[s[i + 1]][s[j]] + distancia[s[i - 1]][s[i + 2]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i + 1]][s[i + 2]] + distancia[s[j - 1]][s[j]]);
-
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
-			}
-		}
-	}
-
-	p->I = melhorI;
-	p->J = melhorJ;
-	p->melhorDelta = melhorDelta;
-}
-
-void Or_opt_3(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
-	int melhorI = 0, melhorJ = 0;
-	double delta, melhorDelta = 0;
-	tVizinhanca *p;
-	p = vizinhanca;
-
-	for (int i = 1; i < s.size() - 4; i++) {
-		for (int j = i + 1; j < s.size() - 3; j++) {
-			delta = distancia[s[i]][s[j + 2]] + distancia[s[i + 2]][s[j + 3]] + distancia[s[i - 1]][s[i + 3]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i + 2]][s[i + 3]] + distancia[s[j + 2]][s[j + 3]]);
-
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
-			}
-		}
-	}
-
-	for (int i = 3; i < s.size() - 3; i++) {
-		for (int j = i - 1; j > 0; j--) {
-			delta = distancia[s[i]][s[j - 1]] + distancia[s[i + 2]][s[j]] + distancia[s[i - 1]][s[i + 3]] -
-				(distancia[s[i]][s[i - 1]] + distancia[s[i + 2]][s[i + 3]] + distancia[s[j - 1]][s[j]]);
-
-			if (delta < melhorDelta) {
-				melhorDelta = delta;
-				melhorI = i;
-				melhorJ = j;
+				if (delta < melhorDelta) {
+					melhorDelta = delta;
+					melhorI = i;
+					melhorJ = j;
+				}
 			}
 		}
 	}
@@ -179,15 +139,16 @@ void Or_opt_3(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
 }
 
 void Opt_2(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
-	int melhorI = 0, melhorJ = 0;
-	double delta, melhorDelta = 0;
+	int melhorI = 0, melhorJ = 0, tamanho = s.size();
+	double deltaParcial, delta, melhorDelta = 0;
 	tVizinhanca *p;
 	p = vizinhanca;
 
-	for (int i = 1; i < s.size() - 4; i++) {
-		for (int j = i + 3; j < s.size() - 1; j++) {
-			delta = distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] - (distancia[s[i]][s[i - 1]] +
-				distancia[s[j]][s[j + 1]]);
+	for (int i = 1; i < tamanho - 4; i++) {
+		deltaParcial = -distancia[s[i]][s[i - 1]];
+		for (int j = i + 3; j < tamanho - 1; j++) {
+			delta = deltaParcial;
+			delta += distancia[s[j]][s[i - 1]] + distancia[s[i]][s[j + 1]] - distancia[s[j]][s[j + 1]];
 
 			if (delta < melhorDelta) {
 				melhorDelta = delta;
@@ -202,7 +163,7 @@ void Opt_2(tVizinhanca *vizinhanca, double **distancia, vector<int> &s) {
 	p->melhorDelta = melhorDelta;
 }
 
-bool comparar(tInsercao a, tInsercao b) {
+bool Comparar(tInsercao a, tInsercao b) {
 	return a.custo < b.custo;
 }
 
@@ -215,10 +176,7 @@ int main(int argc, char** argv) {
 
 	vector<int> s, melhorS;
 	double melhorCusto = DBL_MAX;
-	int Iils;
-
-	if (dimension >= 150) Iils = dimension / 2;
-	else Iils = dimension;
+	int Iils = dimension;
 
 	for (int cont = 0; cont < 50; cont++) {
 		vector<int> listaDeCandidatos;
@@ -258,7 +216,7 @@ int main(int argc, char** argv) {
 				}
 			}
 
-			sort(insercao.begin(), insercao.end(), comparar);
+			sort(insercao.begin(), insercao.end(), Comparar);
 
 			alfa = (rand() % 100) / (float)100;
 
@@ -274,14 +232,13 @@ int main(int argc, char** argv) {
 
 		s.push_back(s[0]);
 
+		int tamanho = s.size();
 		double custo = 0;
-		for (int i = 0; i < s.size() - 1; i++) {
+		for (int i = 0; i < tamanho - 1; i++) {
 			custo += distancia[s[i]][s[i + 1]];
 		}
 
 		for (int iterILS = 0; iterILS < Iils; iterILS++) {
-			//tamanhoSubtour++;
-			
 			vector<int> movimentosDeVizinhanca;
 			PreencheMovimentos(movimentosDeVizinhanca);
 
@@ -307,7 +264,7 @@ int main(int argc, char** argv) {
 					break;
 
 				case 1:
-					Re_insertion(&vizinhanca, distancia, s);
+					N_Re_insertion (&vizinhanca, distancia, s, 1);
 
 					if (vizinhanca.melhorDelta < 0) {
 						if (vizinhanca.J > vizinhanca.I) {
@@ -328,7 +285,7 @@ int main(int argc, char** argv) {
 					break;
 
 				case 2:
-					Or_opt_2(&vizinhanca, distancia, s);
+					N_Re_insertion (&vizinhanca, distancia, s, 2);
 
 					if (vizinhanca.melhorDelta < 0) {
 						if (vizinhanca.J > vizinhanca.I) {
@@ -353,7 +310,7 @@ int main(int argc, char** argv) {
 					break;
 
 				case 3:
-					Or_opt_3(&vizinhanca, distancia, s);
+					N_Re_insertion (&vizinhanca, distancia, s, 3);
 
 					if (vizinhanca.melhorDelta < 0) {
 						if (vizinhanca.J > vizinhanca.I) {
@@ -406,45 +363,76 @@ int main(int argc, char** argv) {
 				s = melhorS; 
 				custo = melhorCusto;
 			}
-		
+
 			//perturbacao
-			int ar[4];
+			int n_min = 2, n_max = std::ceil(s.size() / 10.0);
+			n_max = n_max >= n_min ? n_max : n_min;
 
-			for (int i = 0; i < 4; i++){
-				ar[i] = rand() % (s.size() - 5) + 1;
+			int t1 = n_min == n_max ? n_min : rand() % (n_max - n_min) + n_min;
+			int i = rand() % (s.size() - 1 - t1) + 1;
+
+			int j, t2;
+
+			if (i < 1 + n_min)
+			{
+				j = rand() % ((s.size() - n_min - 1) - (i + t1) + 1) + (i + t1);
+				t2 = rand() % (std::min((int)(s.size() - j - 1), n_max) - n_min + 1) + n_min;
 			}
-			sort(ar, ar + 4);
-
-			for (int i = 0; i < 3; i++){
-				if (ar[i + 1] <= ar[i])
-					ar[i + 1] = ar[i] + 1;
+			else if (i + t1 >= s.size() - n_min)
+			{
+				j = rand() % (i - n_min) + 1;
+				t2 = rand() % (std::min((i - j), n_max) - n_min + 1) + n_min;
 			}
-			
-			if (ar[1] - ar[0] > dimension / 10 - 1)
-				ar[1] = ar[0] + dimension / 10 - 1;
-		
-			if (ar[3] - ar[2] > dimension / 10 - 1)
-				ar[3] = ar[2] + dimension / 10 - 1;
-			
-			int tamanho1 = ar[1] - ar[0] + 1, tamanho2 = ar[3] - ar[2] + 1;
-
-			if (ar[2] - ar[1] > 1)
-				custo += distancia[s[ar[3]]][s[ar[0] - 1]] + distancia[s[ar[2]]][s[ar[1] + 1]] +
-						 distancia[s[ar[1]]][s[ar[2] - 1]] + distancia[s[ar[0]]][s[ar[3] + 1]] -
-						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[1]]][s[ar[1] + 1]] +
-						 distancia[s[ar[2]]][s[ar[2] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
 			else
-				custo += distancia[s[ar[0]]][s[ar[3] + 1]] + distancia[s[ar[0] - 1]][s[ar[3]]] - 
-						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
-
-			for (int i = tamanho1 - 1; i >= 0; i--) {
-				s.insert(s.begin() + ar[2], s[ar[0] + i]);
-				s.erase(s.begin() + ar[0] + i);
+			{
+				if (rand() % 2 == 1)
+				{
+					j = rand() % ((s.size() - n_min - 1) - (i + t1) + 1) + (i + t1);
+					t2 = rand() % (std::min((int)(s.size() - j - 1), n_max) - n_min + 1) + n_min;
+				}
+				else
+				{
+					j = rand() % (i - n_min) + 1;
+					t2 = rand() % (std::min((i - j), n_max) - n_min + 1) + n_min;
+				}
 			}
 
-			for (int i = 0; i < tamanho2; i++) {
-				s.insert(s.begin() + ar[0], s[ar[2] + i]);
-				s.erase(s.begin() + ar[2] + i + 1);
+			std::vector<int> subsequencia_i(s.begin() + i, s.begin() + i + t1);
+			std::vector<int> subsequencia_j(s.begin() + j, s.begin() + j + t2);
+
+			if (i < j)
+			{
+				if (j - (i + t1) > 0) {
+					custo += distancia[s[j]][s[i - 1]] + distancia[s[j + t2 - 1]][s[i + t1]] +
+							distancia[s[i]][s[j - 1]] + distancia[s[i + t1 - 1]][s[j + t2]] -
+							(distancia[s[i]][s[i - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] +
+							distancia[s[j]][s[j - 1]] + distancia[s[j + t2 - 1]][s[j + t2]]);
+				} else {
+					custo += distancia[s[i + t1 - 1]][s[j + t2]] + distancia[s[i - 1]][s[j]] + distancia[s[j + t2 - 1]][s[i]] - 
+							(distancia[s[i]][s[i - 1]] + distancia[s[j + t2 - 1]][s[j + t2]] + distancia[s[i + t1 - 1]][s[j]]);
+				}
+
+				s.erase(s.begin() + j, s.begin() + j + t2);
+				s.insert(s.begin() + j, subsequencia_i.begin(), subsequencia_i.end());
+				s.erase(s.begin() + i, s.begin() + i + t1);
+				s.insert(s.begin() + i, subsequencia_j.begin(), subsequencia_j.end());
+			}
+			else
+			{
+				if (i - (j + t2) > 0) {
+					custo += distancia[s[j]][s[i - 1]] + distancia[s[j + t2 - 1]][s[i + t1]] +
+							distancia[s[i]][s[j - 1]] + distancia[s[i + t1 - 1]][s[j + t2]] -
+							(distancia[s[i]][s[i - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] +
+							distancia[s[j]][s[j - 1]] + distancia[s[j + t2 - 1]][s[j + t2]]);
+				} else {
+					custo += distancia[s[j + t2 - 1]][s[i + t1]] + distancia[s[j - 1]][s[i]] + distancia[s[i + t1 - 1]][s[j]] - 
+							(distancia[s[j]][s[j - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] + distancia[s[j + t2 - 1]][s[i]]);
+				}
+
+				s.erase(s.begin() + i, s.begin() + i + t1);
+				s.insert(s.begin() + i, subsequencia_j.begin(), subsequencia_j.end());
+				s.erase(s.begin() + j, s.begin() + j + t2);
+				s.insert(s.begin() + j, subsequencia_i.begin(), subsequencia_i.end());
 			}
 		}
 	}
