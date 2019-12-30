@@ -174,11 +174,15 @@ int main(int argc, char** argv) {
 
 	auto inicio = chrono::system_clock::now();
 
-	vector<int> s, melhorS;
+	vector<int> s, melhorSAtual, melhorS;
 	double melhorCusto = DBL_MAX;
-	int Iils = dimension;
+	int Iils;
+
+	if (dimension > 150) Iils = dimension/2;
+	else Iils = dimension;
 
 	for (int cont = 0; cont < 50; cont++) {
+		double melhorCustoAtual = DBL_MAX;
 		vector<int> listaDeCandidatos;
 		for (int i = 1; i < dimension; i++) {
 			listaDeCandidatos.push_back(i);
@@ -232,9 +236,8 @@ int main(int argc, char** argv) {
 
 		s.push_back(s[0]);
 
-		int tamanho = s.size();
 		double custo = 0;
-		for (int i = 0; i < tamanho - 1; i++) {
+		for (int i = 0; i < dimension; i++) {
 			custo += distancia[s[i]][s[i + 1]];
 		}
 
@@ -355,85 +358,59 @@ int main(int argc, char** argv) {
 				}
 			}
 
-			if (custo < melhorCusto) {
-				melhorS = s;
-				melhorCusto = custo;
+			if (custo < melhorCustoAtual) {
+				melhorSAtual = s;
+				melhorCustoAtual = custo;
 				iterILS = -1;
 			} else {
-				s = melhorS; 
-				custo = melhorCusto;
+				s = melhorSAtual; 
+				custo = melhorCustoAtual;
 			}
 
 			//perturbacao
-			int n_min = 2, n_max = std::ceil(s.size() / 10.0);
-			n_max = n_max >= n_min ? n_max : n_min;
-
-			int t1 = n_min == n_max ? n_min : rand() % (n_max - n_min) + n_min;
-			int i = rand() % (s.size() - 1 - t1) + 1;
-
-			int j, t2;
-
-			if (i < 1 + n_min)
-			{
-				j = rand() % ((s.size() - n_min - 1) - (i + t1) + 1) + (i + t1);
-				t2 = rand() % (std::min((int)(s.size() - j - 1), n_max) - n_min + 1) + n_min;
+			int ar[4];
+			
+			for (int i = 0; i < 4; i++){
+				ar[i] = rand() % (dimension - 4) + 1;
 			}
-			else if (i + t1 >= s.size() - n_min)
-			{
-				j = rand() % (i - n_min) + 1;
-				t2 = rand() % (std::min((i - j), n_max) - n_min + 1) + n_min;
+			sort(ar, ar + 4);
+
+			for (int i = 0; i < 3; i++){
+				if (ar[i + 1] <= ar[i])
+					ar[i + 1] = ar[i] + 1;
 			}
+			
+			if (ar[1] - ar[0] > dimension / 10 - 1)
+				ar[1] = ar[0] + dimension / 10 - 1;
+		
+			if (ar[3] - ar[2] > dimension / 10 - 1)
+				ar[3] = ar[2] + dimension / 10 - 1;
+			
+			int tamanho1 = ar[1] - ar[0] + 1, tamanho2 = ar[3] - ar[2] + 1;
+
+			if (ar[2] - ar[1] > 1)
+				custo += distancia[s[ar[3]]][s[ar[0] - 1]] + distancia[s[ar[2]]][s[ar[1] + 1]] +
+						 distancia[s[ar[1]]][s[ar[2] - 1]] + distancia[s[ar[0]]][s[ar[3] + 1]] -
+						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[1]]][s[ar[1] + 1]] +
+						 distancia[s[ar[2]]][s[ar[2] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
 			else
-			{
-				if (rand() % 2 == 1)
-				{
-					j = rand() % ((s.size() - n_min - 1) - (i + t1) + 1) + (i + t1);
-					t2 = rand() % (std::min((int)(s.size() - j - 1), n_max) - n_min + 1) + n_min;
-				}
-				else
-				{
-					j = rand() % (i - n_min) + 1;
-					t2 = rand() % (std::min((i - j), n_max) - n_min + 1) + n_min;
-				}
+				custo += distancia[s[ar[0]]][s[ar[3] + 1]] + distancia[s[ar[0] - 1]][s[ar[3]]] - 
+						 (distancia[s[ar[0]]][s[ar[0] - 1]] + distancia[s[ar[3]]][s[ar[3] + 1]]);
+
+			for (int i = tamanho1 - 1; i >= 0; i--) {
+				s.insert(s.begin() + ar[2], s[ar[0] + i]);
+				s.erase(s.begin() + ar[0] + i);
 			}
 
-			std::vector<int> subsequencia_i(s.begin() + i, s.begin() + i + t1);
-			std::vector<int> subsequencia_j(s.begin() + j, s.begin() + j + t2);
-
-			if (i < j)
-			{
-				if (j - (i + t1) > 0) {
-					custo += distancia[s[j]][s[i - 1]] + distancia[s[j + t2 - 1]][s[i + t1]] +
-							distancia[s[i]][s[j - 1]] + distancia[s[i + t1 - 1]][s[j + t2]] -
-							(distancia[s[i]][s[i - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] +
-							distancia[s[j]][s[j - 1]] + distancia[s[j + t2 - 1]][s[j + t2]]);
-				} else {
-					custo += distancia[s[i + t1 - 1]][s[j + t2]] + distancia[s[i - 1]][s[j]] + distancia[s[j + t2 - 1]][s[i]] - 
-							(distancia[s[i]][s[i - 1]] + distancia[s[j + t2 - 1]][s[j + t2]] + distancia[s[i + t1 - 1]][s[j]]);
-				}
-
-				s.erase(s.begin() + j, s.begin() + j + t2);
-				s.insert(s.begin() + j, subsequencia_i.begin(), subsequencia_i.end());
-				s.erase(s.begin() + i, s.begin() + i + t1);
-				s.insert(s.begin() + i, subsequencia_j.begin(), subsequencia_j.end());
+			for (int i = 0; i < tamanho2; i++) {
+				s.insert(s.begin() + ar[0], s[ar[2] + i]);
+				s.erase(s.begin() + ar[2] + i + 1);
 			}
-			else
-			{
-				if (i - (j + t2) > 0) {
-					custo += distancia[s[j]][s[i - 1]] + distancia[s[j + t2 - 1]][s[i + t1]] +
-							distancia[s[i]][s[j - 1]] + distancia[s[i + t1 - 1]][s[j + t2]] -
-							(distancia[s[i]][s[i - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] +
-							distancia[s[j]][s[j - 1]] + distancia[s[j + t2 - 1]][s[j + t2]]);
-				} else {
-					custo += distancia[s[j + t2 - 1]][s[i + t1]] + distancia[s[j - 1]][s[i]] + distancia[s[i + t1 - 1]][s[j]] - 
-							(distancia[s[j]][s[j - 1]] + distancia[s[i + t1 - 1]][s[i + t1]] + distancia[s[j + t2 - 1]][s[i]]);
-				}
+		}
 
-				s.erase(s.begin() + i, s.begin() + i + t1);
-				s.insert(s.begin() + i, subsequencia_j.begin(), subsequencia_j.end());
-				s.erase(s.begin() + j, s.begin() + j + t2);
-				s.insert(s.begin() + j, subsequencia_i.begin(), subsequencia_i.end());
-			}
+		if (melhorCustoAtual < melhorCusto) {
+			melhorCusto = melhorCustoAtual;
+			melhorS = melhorSAtual;
 		}
 	}
 
