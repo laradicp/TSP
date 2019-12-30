@@ -19,4 +19,3 @@ for instance in instances/*; do
 done
 
 echo "-" >> ./benchmark/bm.txt
-
