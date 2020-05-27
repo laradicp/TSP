@@ -1,272 +1,272 @@
 instances/a280.tsp
 Custo: 2579.000000
-Tempo: 55.024328
+Tempo: 52.439130
 
 instances/ali535.tsp
-Custo: 202542.700000
-Tempo: 794.721031
+Custo: 202507.700000
+Tempo: 804.014100
 
 instances/att48.tsp
 Custo: 10628.000000
-Tempo: 0.215246
+Tempo: 0.193554
 
 instances/att532.tsp
-Custo: 27747.200000
-Tempo: 804.929343
+Custo: 27745.700000
+Tempo: 779.843500
 
 instances/bayg29.tsp
 Custo: 1610.000000
-Tempo: 0.033013
+Tempo: 0.034281
 
 instances/bays29.tsp
 Custo: 2020.000000
-Tempo: 0.036612
+Tempo: 0.033100
 
 instances/berlin52.tsp
 Custo: 7542.000000
-Tempo: 0.241745
+Tempo: 0.224532
 
 instances/bier127.tsp
 Custo: 118282.000000
-Tempo: 6.442028
+Tempo: 5.883737
 
 instances/brazil58.tsp
 Custo: 25395.000000
-Tempo: 0.337757
+Tempo: 0.301279
 
 instances/brg180.tsp
 Custo: 1950.000000
-Tempo: 7.682824
+Tempo: 7.262910
 
 instances/burma14.tsp
 Custo: 3323.000000
-Tempo: 0.003226
+Tempo: 0.002672
 
 instances/ch130.tsp
 Custo: 6110.000000
-Tempo: 6.733065
+Tempo: 6.207752
 
 instances/ch150.tsp
 Custo: 6528.000000
-Tempo: 9.707008
+Tempo: 8.998334
 
 instances/d198.tsp
 Custo: 15780.000000
-Tempo: 19.017717
+Tempo: 18.240280
 
 instances/dantzig42.tsp
 Custo: 699.000000
-Tempo: 0.120203
+Tempo: 0.112284
 
 instances/eil101.tsp
 Custo: 629.000000
-Tempo: 2.702844
+Tempo: 2.498488
 
 instances/eil51.tsp
 Custo: 426.000000
-Tempo: 0.257216
+Tempo: 0.227169
 
 instances/eil76.tsp
 Custo: 538.000000
-Tempo: 1.012589
+Tempo: 0.910067
 
 instances/fl417.tsp
 Custo: 11861.000000
-Tempo: 225.974795
+Tempo: 227.263900
 
 instances/fri26.tsp
 Custo: 937.000000
-Tempo: 0.023731
+Tempo: 0.022259
 
 instances/gil262.tsp
-Custo: 2380.000000
-Tempo: 51.241206
+Custo: 2380.200000
+Tempo: 51.096000
 
 instances/gr120.tsp
 Custo: 6942.000000
-Tempo: 5.504807
+Tempo: 5.211164
 
 instances/gr137.tsp
 Custo: 69853.000000
-Tempo: 7.122617
+Tempo: 6.557012
 
 instances/gr17.tsp
 Custo: 2085.000000
-Tempo: 0.005870
+Tempo: 0.004825
 
 instances/gr202.tsp
-Custo: 40166.000000
-Tempo: 21.175697
+Custo: 40168.900000
+Tempo: 20.635910
 
 instances/gr21.tsp
 Custo: 2707.000000
-Tempo: 0.011518
+Tempo: 0.010452
 
 instances/gr229.tsp
-Custo: 134659.900000
-Tempo: 35.232960
+Custo: 134668.700000
+Tempo: 33.294730
 
 instances/gr24.tsp
 Custo: 1272.000000
-Tempo: 0.019573
+Tempo: 0.017041
 
 instances/gr431.tsp
-Custo: 171674.400000
-Tempo: 380.374171
+Custo: 171729.700000
+Tempo: 375.025100
 
 instances/gr48.tsp
 Custo: 5046.000000
-Tempo: 0.219356
+Tempo: 0.188020
 
 instances/gr96.tsp
 Custo: 55209.000000
-Tempo: 2.162737
+Tempo: 1.910580
 
 instances/hk48.tsp
 Custo: 11461.000000
-Tempo: 0.215950
+Tempo: 0.197778
 
 instances/kroA100.tsp
 Custo: 21282.000000
-Tempo: 2.371041
+Tempo: 2.167223
 
 instances/kroA150.tsp
 Custo: 26524.000000
-Tempo: 11.325043
+Tempo: 10.846530
 
 instances/kroA200.tsp
-Custo: 29369.500000
-Tempo: 20.171134
+Custo: 29368.000000
+Tempo: 19.849370
 
 instances/kroB100.tsp
 Custo: 22141.000000
-Tempo: 2.477114
+Tempo: 2.315949
 
 instances/kroB150.tsp
-Custo: 26130.000000
-Tempo: 10.891344
+Custo: 26130.200000
+Tempo: 10.091093
 
 instances/kroB200.tsp
-Custo: 29440.800000
-Tempo: 21.845887
+Custo: 29439.700000
+Tempo: 21.513250
 
 instances/kroC100.tsp
 Custo: 20749.000000
-Tempo: 2.340513
+Tempo: 2.119911
 
 instances/kroD100.tsp
 Custo: 21294.000000
-Tempo: 2.589707
+Tempo: 2.347792
 
 instances/kroE100.tsp
 Custo: 22068.000000
-Tempo: 2.578370
+Tempo: 2.381077
 
 instances/lin105.tsp
 Custo: 14379.000000
-Tempo: 2.823952
+Tempo: 2.549757
 
 instances/lin318.tsp
-Custo: 42105.100000
-Tempo: 107.691692
+Custo: 42086.900000
+Tempo: 107.709700
 
 instances/linhp318.tsp
-Custo: 42099.000000
-Tempo: 111.326072
+Custo: 42102.300000
+Tempo: 106.824480
 
 instances/pcb442.tsp
-Custo: 50910.400000
-Tempo: 317.211057
+Custo: 50930.700000
+Tempo: 314.471900
 
 instances/pr107.tsp
 Custo: 44303.000000
-Tempo: 2.971582
+Tempo: 2.623553
 
 instances/pr124.tsp
 Custo: 59030.000000
-Tempo: 4.264411
+Tempo: 3.884023
 
 instances/pr136.tsp
 Custo: 96772.000000
-Tempo: 8.521176
+Tempo: 7.693581
 
 instances/pr144.tsp
 Custo: 58537.000000
-Tempo: 6.761718
+Tempo: 6.119200
 
 instances/pr152.tsp
 Custo: 73682.000000
-Tempo: 5.737097
+Tempo: 5.352011
 
 instances/pr226.tsp
 Custo: 80369.000000
-Tempo: 26.962084
+Tempo: 25.420770
 
 instances/pr264.tsp
 Custo: 49135.000000
-Tempo: 40.598952
+Tempo: 39.414750
 
 instances/pr299.tsp
-Custo: 48194.800000
-Tempo: 75.022409
+Custo: 48192.200000
+Tempo: 73.583740
 
 instances/pr76.tsp
 Custo: 108159.000000
-Tempo: 0.917688
+Tempo: 0.838957
 
 instances/rat195.tsp
 Custo: 2324.800000
-Tempo: 17.662395
+Tempo: 16.893980
 
 instances/rat99.tsp
 Custo: 1211.000000
-Tempo: 2.529821
+Tempo: 2.347024
 
 instances/rd100.tsp
 Custo: 7910.000000
-Tempo: 2.622285
+Tempo: 2.357785
 
 instances/rd400.tsp
-Custo: 15308.700000
-Tempo: 274.424007
+Custo: 15321.800000
+Tempo: 264.189800
 
 instances/si175.tsp
 Custo: 21407.000000
-Tempo: 9.447871
+Tempo: 9.054248
 
 instances/si535.tsp
-Custo: 48485.200000
-Tempo: 409.310998
+Custo: 48485.500000
+Tempo: 410.593000
 
 instances/st70.tsp
 Custo: 675.000000
-Tempo: 0.740807
+Tempo: 0.648594
 
 instances/swiss42.tsp
 Custo: 1273.000000
-Tempo: 0.115185
+Tempo: 0.103467
 
 instances/ts225.tsp
 Custo: 126643.000000
-Tempo: 18.560037
+Tempo: 17.988370
 
 instances/tsp225.tsp
-Custo: 3917.700000
-Tempo: 27.887018
+Custo: 3916.500000
+Tempo: 26.817570
 
 instances/u159.tsp
 Custo: 42080.000000
-Tempo: 7.081491
+Tempo: 6.508624
 
 instances/ulysses16.tsp
 Custo: 6859.000000
-Tempo: 0.005147
+Tempo: 0.004438
 
 instances/ulysses22.tsp
 Custo: 7013.000000
-Tempo: 0.013753
+Tempo: 0.012892
 
 -
 Custo: 7013.000000
-Tempo: 0.013237
+Tempo: 0.012720
 

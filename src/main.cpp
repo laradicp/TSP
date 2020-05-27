@@ -1,18 +1,15 @@
 #include "readData.h"
 #include <fstream>
 #include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 #include <vector>
 #include <algorithm>
 #include <ctime>
 #include <chrono>
-#include <float.h>
 
 using namespace std;
 
-double ** distancia; // matriz de adjacencia
+double ** distancia; //matriz de adjacência
 int dimension;
 
 typedef struct {
@@ -175,14 +172,14 @@ int main(int argc, char** argv) {
 	auto inicio = chrono::system_clock::now();
 
 	vector<int> s, melhorSAtual, melhorS;
-	double melhorCusto = DBL_MAX;
+	double melhorCusto = __DBL_MAX__;
 	int Iils;
 
 	if (dimension > 150) Iils = dimension/2;
 	else Iils = dimension;
 
 	for (int cont = 0; cont < 50; cont++) {
-		double melhorCustoAtual = DBL_MAX;
+		double melhorCustoAtual = __DBL_MAX__;
 		vector<int> listaDeCandidatos;
 		for (int i = 1; i < dimension; i++) {
 			listaDeCandidatos.push_back(i);
@@ -418,10 +415,10 @@ int main(int argc, char** argv) {
     chrono::duration<double> tempo = fim - inicio;
 
 	for (int i = 0; i < melhorS.size(); i++) {
-		printf("%d  ", melhorS[i] + 1);
+		cout << melhorS[i] + 1 << "  ";
 	}
-	printf("\nCusto: %lf\n", melhorCusto);
-	printf("Tempo: %lf\n", tempo);
+	cout << endl << "Custo: " << melhorCusto << endl;
+	cout << "Tempo: " << tempo.count() << endl;
 
 	return 0;
 }
